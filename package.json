@@ -16,7 +16,7 @@
   "scripts": {
     "clean": "rm -rf build && mkdir build",
     "build-dev": "npm run clean && browserify index.js -s d3-lib-starter > build/d3-lib-starter.js -t [ babelify --presets [ es2015 ] ]",
-    "build-prod": "npm run build-dev && uglifyjs build/d3-lib-starter.js -c -m -o build/d3-lib-starter.min.js",
+    "build-prod": "npm test && npm run build-dev && uglifyjs build/d3-lib-starter.js -c -m -o build/d3-lib-starter.min.js",
     "test": "karma start",
     "start": "npm run build-dev"
   },
