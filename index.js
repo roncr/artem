@@ -1,3 +1,5 @@
-import foo from "./src/foo";
+import charts from './src/charts/charts';
 
-export default foo;
+export {
+    charts
+}
