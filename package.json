@@ -34,5 +34,8 @@
     "phantomjs-prebuilt": "2.1.4",
     "uglify-js": "2",
     "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "d3": "^3.5.17"
   }
 }

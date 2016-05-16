@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Foo - Demo</title>
+    <script src="node_modules/d3/d3.min.js"></script>
     <script src="build/foo.js"></script>
     <script>
-        foo.charts.pie()
+        var chart = foo.charts.pie()
+                .width(300);
+        //console.log(chart);
+
+        d3.selectAll("svg")
+            .datum([])
+            .call(chart.render());
     </script>
 </head>
 <body>
-
+    <h1>Foo - Demo</h1>
+    <svg width="500" height="500"></svg>
 </body>
 </html>
