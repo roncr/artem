@@ -6,17 +6,17 @@
     "d3"
   ],
   "license": "MIT",
-  "main": "build/d3-lib-starter.js",
+  "main": "build/foo.js",
   "jsnext:main": "index",
-  "homepage": "https://github.com/{USERNAME}/d3-foo",
+  "homepage": "https://github.com/roncr/d3-lib-starter",
   "repository": {
     "type": "git",
-    "url": "https://github.com/{USERNAME}/d3-foo.git"
+    "url": "https://github.com/roncr/d3-foo.git"
   },
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build-dev": "npm run clean && browserify index.js -s d3-lib-starter > build/d3-lib-starter.js -t [ babelify --presets [ es2015 ] ]",
-    "build-prod": "npm test && npm run build-dev && uglifyjs build/d3-lib-starter.js -c -m -o build/d3-lib-starter.min.js",
+    "build-dev": "npm run clean && browserify index.js -s foo > build/foo.js -t [ babelify --presets [ es2015 ] ]",
+    "build-prod": "npm test && npm run build-dev && uglifyjs build/foo.js -c -m -o build/foo.min.js",
     "test": "karma start",
     "start": "npm run build-dev"
   },
