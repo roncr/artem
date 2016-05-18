@@ -1,5 +1,5 @@
 import Chart from '../base/chart.js';
-import { defaultGetSet } from '../../utils/getSet';
+import { defaultGetSet } from '../../utils/utils';
 
 class Pie extends Chart {
     constructor() {

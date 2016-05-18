@@ -14,9 +14,8 @@ class Chart {
     constructor() {
 
     }
-
-
-    bindProperties (properties, options) {
+    
+    bindProperties (properties) {
         for(let prop in properties) {
             this[prop] = propertyBuilder(properties[prop], this);
         }
