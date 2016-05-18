@@ -1,6 +1,8 @@
 # Artem
 
-D3 charts playground. Base on [D3](https://d3js.org/) 3.5.17
+D3 charts playground. Base on [D3](https://d3js.org/) 3.5.17.
+
+Implementation of `Towards Reusable Charts` proposal by Mike Bostock.
 
 ## Development
 

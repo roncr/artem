@@ -4,18 +4,32 @@
     <meta charset="UTF-8">
     <title>Artem - Demo</title>
     <script src="node_modules/d3/d3.min.js"></script>
-    <script src="build/artem.js"></script>
-    <script>
-        var chart = artem.charts.pie()
-                .width(300);
-
-        d3.selectAll("svg")
-            .datum([])
-            .call(chart.render());
-    </script>
 </head>
 <body>
     <h1>Artem - Demo</h1>
     <svg width="500" height="500"></svg>
+
+    <script src="build/artem.js"></script>
+    <script>
+        var data = [
+            { age: "<5", population: 2704659 },
+            { age: "5-13", population: 4499890 },
+            { age: "14-17", population: 2159981 },
+            { age: "18-24", population: 3853788 },
+            { age: "25-44", population: 14106543 },
+            { age: "45-64", population: 8819342 },
+            { age: "≥65", population: 612463 }
+        ];
+
+        var chart = artem.charts.pie()
+                .width(300)
+                .height(300)
+                .value(function(d){ return d.population; })
+                .key(function(d){ return d.data.age; });
+
+        d3.selectAll("svg")
+                .datum(data)
+                .call(chart.render());
+    </script>
 </body>
 </html>
