@@ -25,7 +25,8 @@
                 .width(300)
                 .height(300)
                 .value(function(d){ return d.population; })
-                .key(function(d){ return d.data.age; });
+                .key(function(d){ return d.data.age; })
+                .colors(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
         d3.selectAll("svg")
                 .datum(data)

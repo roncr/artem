@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import Chart from '../base/chart.js';
-import { defaultGetSet, margin, relativeWidth, relativeHeight, initSvg, translate } from '../../utils/utils';
+import { defaultGetSet, defaultGetter, margin, relativeWidth, relativeHeight, initSvg, translate } from '../../utils/utils';
 
 class Pie extends Chart {
     constructor() {
@@ -10,7 +10,8 @@ class Pie extends Chart {
             height: 500,
             margin: margin(0),
             getValue: d => d.value,
-            getKey: d => d.key
+            getKey: d => d.key,
+            color: d3.scale.category10()
         };
 
         let properties = {
@@ -18,7 +19,8 @@ class Pie extends Chart {
             height: defaultGetSet('height', opts),
             margin: defaultGetSet('margin', opts),
             value: defaultGetSet('getValue', opts),
-            key: defaultGetSet('getKey', opts)
+            key: defaultGetSet('getKey', opts),
+            colors: { get: defaultGetter('color'), set: (v) => { opts.color = d3.scale.ordinal().range(v) }}
         };
 
         this.opts = opts;
@@ -29,16 +31,12 @@ class Pie extends Chart {
         let self = this;
 
         return function(selection) {
-            console.log("rendering pie chart", selection.length, "width", self.width(), self.opts);
             selection.each(function(data) {
-                let { width, height, margin, getValue, getKey } = self.opts;
+                let { width, height, margin, getValue, getKey, color } = self.opts;
 
                 let relWidth = relativeWidth(width, margin),
                     relHeight = relativeHeight(height, margin),
                     radius = Math.min(relWidth, relHeight) / 2,
-                // TODO: better color handling
-                    color = d3.scale.ordinal()
-                        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]),
                     container = initSvg(this);
 
                 let arc = d3.svg.arc()
