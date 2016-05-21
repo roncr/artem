@@ -35,6 +35,10 @@ export function initSvg(container) {
     return svg;
 }
 
+export function colorScale(colors) {
+    return d3.scale.ordinal().range(colors);
+}
+
 export function translate(x, y) {
     if(x & y){
         return `translate(${x}, ${y})`;

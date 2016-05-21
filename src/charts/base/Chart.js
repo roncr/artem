@@ -12,7 +12,6 @@ function propertyBuilder (propertyDef, component) {
 
 class Chart {
     constructor() {
-
     }
     
     bindProperties (properties) {

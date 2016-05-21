@@ -9,5 +9,10 @@ export {
     relativeWidth,
     relativeHeight,
     initSvg,
+    colorScale,
     translate
 } from './svgHelper';
+
+export {
+    attachStaticProperties
+} from './apiHelper';
