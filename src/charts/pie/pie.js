@@ -1,6 +1,7 @@
 import d3 from 'd3';
 import Chart from '../base/chart.js';
 import PieConstants from './constants';
+import d3Extended from '../../utils/d3Extended';
 import {
     defaultGetSet, defaultGetter, margin, relativeWidth, relativeHeight,
     initSvg, translate, colorScale, attachStaticProperties
@@ -54,6 +55,9 @@ class Pie extends Chart {
                     labelThreshold, transformLabel
                 } = self.opts;
 
+                // Initialize required components
+                var tooltip = d3Extended.tooltip();
+
                 // Base variables
                 let relWidth = relativeWidth(width, margin),
                     relHeight = relativeHeight(height, margin),
@@ -90,7 +94,16 @@ class Pie extends Chart {
                 // Render arcs
                 arcG.append("path")
                     .attr("d", arc)
-                    .style("fill", function(d) { return color(getKey.apply(this, arguments)); });
+                    .style("fill", function(d) { return color(getKey.apply(this, arguments)); })
+                    .on('mouseover', function(d) {
+                        tooltip.show(d);
+                    })
+                    .on('mousemove', function() {
+                        tooltip.move()
+                    })
+                    .on('mouseleave', function() {
+                        tooltip.hide();
+                    });
 
                 // Labels
                 if(showLabels) {
