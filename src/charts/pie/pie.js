@@ -1,7 +1,7 @@
 import d3 from 'd3';
 import Chart from '../base/chart.js';
 import PieConstants from './constants';
-import d3Extended from '../../utils/d3Extended';
+import d3TooltipBox from 'd3-tooltip-box';
 import {
     defaultGetSet, defaultGetter, margin, relativeWidth, relativeHeight,
     initSvg, translate, colorScale, attachStaticProperties
@@ -10,6 +10,7 @@ import {
 class Pie extends Chart {
     constructor() {
         super();
+        console.log(d3TooltipBox);
         let opts = {
             width: 500,
             height: 500,
@@ -56,7 +57,12 @@ class Pie extends Chart {
                 } = self.opts;
 
                 // Initialize required components
-                var tooltip = d3Extended.tooltip();
+                var tooltip = d3TooltipBox.tooltip()
+                    .data(function(d) {
+                        return {
+                            value: d.value
+                        }
+                    });
 
                 // Base variables
                 let relWidth = relativeWidth(width, margin),
@@ -95,15 +101,7 @@ class Pie extends Chart {
                 arcG.append("path")
                     .attr("d", arc)
                     .style("fill", function(d) { return color(getKey.apply(this, arguments)); })
-                    .on('mouseover', function(d) {
-                        tooltip.show(d);
-                    })
-                    .on('mousemove', function() {
-                        tooltip.move()
-                    })
-                    .on('mouseleave', function() {
-                        tooltip.hide();
-                    });
+                    .call(tooltip.bind());
 
                 // Labels
                 if(showLabels) {
