@@ -10,7 +10,7 @@ import {
 class Pie extends Chart {
     constructor() {
         super();
-        console.log(d3TooltipBox);
+
         let opts = {
             width: 500,
             height: 500,
@@ -60,9 +60,11 @@ class Pie extends Chart {
                 var tooltip = d3TooltipBox.tooltip()
                     .data(function(d) {
                         return {
-                            value: d.value
+                            key: getKey(d),
+                            value: getValue(d.data)
                         }
-                    });
+                    })
+                    .template(`<div><span></span></div>`);
 
                 // Base variables
                 let relWidth = relativeWidth(width, margin),
