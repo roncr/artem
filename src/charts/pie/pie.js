@@ -60,7 +60,7 @@ class Pie extends Chart {
                 var tooltip = d3TooltipBox.tooltip()
                     .data(function(d) {
                         return {
-                            key: getKey(d),
+                            key: getKey(d.data),
                             value: getValue(d.data)
                         }
                     })
@@ -102,7 +102,7 @@ class Pie extends Chart {
                 // Render arcs
                 arcG.append("path")
                     .attr("d", arc)
-                    .style("fill", function(d) { return color(getKey.apply(this, arguments)); })
+                    .style("fill", function(d, i) { return color(getKey.apply(this, [d.data, i])); })
                     .call(tooltip.bind());
 
                 // Labels
@@ -110,13 +110,13 @@ class Pie extends Chart {
                     arcG.append('text')
                         .attr("transform", function(d) { return translate(labelArc.centroid(d)); })
                         .attr("dy", ".35em")
-                        .text(function(d) {
+                        .text(function(d, i) {
                             var percentage = getArcPercentage(d);
 
                             if (percentage >= labelThreshold) {
                                 switch (transformLabel){
                                     case PieConstants.LABEL_TYPE.KEY:
-                                        return getKey.apply(this, arguments);
+                                        return getKey.apply(this, [d.data, i]);
                                     case PieConstants.LABEL_TYPE.VALUE:
                                         return d.value;
                                     case PieConstants.LABEL_TYPE.PERCENTAGE:
