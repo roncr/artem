@@ -16,3 +16,7 @@ export {
 export {
     attachStaticProperties
 } from './apiHelper';
+
+export {
+    buildTemplate
+} from './tooltip'

@@ -14,7 +14,8 @@
   },
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build-dev": "npm run clean && browserify index.js -s artem > build/artem.js -t [ babelify --presets [ es2015 ] ]",
+    "build-css": "node-sass style/main.scss build/artem.css",
+    "build-dev": "npm run clean && browserify index.js -s artem > build/artem.js -t [ babelify --presets [ es2015 ] ] && npm run build-css",
     "build-prod": "npm test && npm run build-dev && uglifyjs build/artem.js -c -m -o build/artem.min.js",
     "test": "karma start",
     "start": "npm run build-dev"
@@ -30,11 +31,13 @@
     "karma-jasmine": "^1.0.2",
     "karma-mocha-reporter": "^2.0.3",
     "karma-phantomjs-launcher": "^1.0.0",
+    "node-sass": "^3.8.0",
     "phantomjs-prebuilt": "2.1.4",
     "uglify-js": "2",
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "d3": "^3.5.17"
+    "d3": "^3.5.17",
+    "d3-tooltip-box": "0.0.7"
   }
 }

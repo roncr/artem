@@ -1,0 +1,14 @@
+.artem-tooltip {
+  background: rgba(#fefefe, 0.9);
+  border-radius: 2px;
+  padding: 1px;
+
+  .artem-tooltip-row {
+    padding: 5px;
+    border-left: 4px solid;
+  }
+
+  .label {
+    font-weight: bold;
+  }
+}

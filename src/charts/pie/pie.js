@@ -4,7 +4,7 @@ import PieConstants from './constants';
 import d3TooltipBox from 'd3-tooltip-box';
 import {
     defaultGetSet, defaultGetter, margin, relativeWidth, relativeHeight,
-    initSvg, translate, colorScale, attachStaticProperties
+    initSvg, translate, colorScale, attachStaticProperties, buildTemplate
 } from '../../utils/utils';
 
 class Pie extends Chart {
@@ -58,13 +58,17 @@ class Pie extends Chart {
 
                 // Initialize required components
                 var tooltip = d3TooltipBox.tooltip()
-                    .data(function(d) {
-                        return {
-                            key: getKey(d.data),
-                            value: getValue(d.data)
-                        }
-                    })
-                    .template(`<div><span></span></div>`);
+                    .template(function(d){
+                        var key = getKey(d.data);
+
+                        var def = {
+                            key: key,
+                            value: getValue(d.data),
+                            color: color(key)
+                        };
+
+                        return buildTemplate(def);
+                    });
 
                 // Base variables
                 let relWidth = relativeWidth(width, margin),
