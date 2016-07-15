@@ -22,7 +22,9 @@ class Pie extends Chart {
             showLabels: true,
             labelThreshold: 0.05,
             transformLabel: PieConstants.LABEL_TYPE.KEY,
-            tooltipTemplateFn: null
+            showTooltip: false,
+            tooltipTemplateFn: null,
+            growOnHover: false
         };
 
         let properties = {
@@ -36,7 +38,9 @@ class Pie extends Chart {
             showLabels: defaultGetSet('showLabels', opts),
             labelThreshold: defaultGetSet('labelThreshold', opts),
             label: defaultGetSet('transformLabel', opts),
-            tooltip: defaultGetSet('tooltipTemplateFn', opts)
+            showTooltip: defaultGetSet('showTooltip', opts),
+            tooltip: defaultGetSet('tooltipTemplateFn', opts),
+            growOnHover: defaultGetSet('growOnHover', opts)
         };
 
         this.opts = opts;
@@ -44,7 +48,8 @@ class Pie extends Chart {
     }
 
     render() {
-        let self = this;
+        let self = this,
+            growSpeed = 200;
 
         function getArcPercentage(d) {
             return (d.endAngle - d.startAngle) / (2 * Math.PI);
@@ -55,12 +60,12 @@ class Pie extends Chart {
                 // Options
                 let {
                     width, height, margin, getValue, getKey, color, donutRatio, showLabels,
-                    labelThreshold, transformLabel
+                    labelThreshold, transformLabel, showTooltip, tooltipTemplateFn,  growOnHover
                 } = self.opts;
 
                 // Initialize required components
                 var tooltip = d3TooltipBox.tooltip()
-                    .template(self.opts.tooltipTemplateFn || function(d){
+                    .template(tooltipTemplateFn || function(d){
                         var key = getKey(d.data);
 
                         var def = {
@@ -79,9 +84,17 @@ class Pie extends Chart {
                     innerRadius = donutRatio * radius,
                     svg = initSvg(this);
 
+                if(growOnHover) {
+                    radius -= 10;
+                }
+
                 // Configure arcs
                 let arc = d3.svg.arc()
-                    .outerRadius(radius - 10)
+                    .outerRadius(radius)
+                    .innerRadius(innerRadius);
+
+                let arcHover = d3.svg.arc()
+                    .outerRadius(radius + 10)
                     .innerRadius(innerRadius);
 
                 var labelArc = d3.svg.arc()
@@ -106,10 +119,26 @@ class Pie extends Chart {
                     .attr("class", "arc");
 
                 // Render arcs
-                arcG.append("path")
+                let arcPath = arcG.append("path")
                     .attr("d", arc)
-                    .style("fill", function(d, i) { return color(getKey.apply(this, [d.data, i])); })
-                    .call(tooltip.bind());
+                    .style("fill", function(d, i) { return color(getKey.apply(this, [d.data, i])); });
+
+                if(showTooltip){
+                    arcPath.call(tooltip.bind());
+                }
+
+                if(growOnHover) {
+                    arcG.on('mouseover', function() {
+                            d3.select(this).select("path").transition()
+                                .duration(growSpeed)
+                                .attr("d", arcHover);
+                        })
+                        .on('mouseleave', function(){
+                            d3.select(this).select("path").transition()
+                                .duration(growSpeed)
+                                .attr("d", arc);
+                        });
+                }
 
                 // Labels
                 if(showLabels) {

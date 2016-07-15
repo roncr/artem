@@ -29,7 +29,8 @@
                 .key(function(d){ return d.age; })
                 .colors(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
                 .donutRatio(0.5)
-                .label(artem.charts.pie.LABEL_TYPE.PERCENTAGE);
+                .label(artem.charts.pie.LABEL_TYPE.PERCENTAGE)
+                .showTooltip(true);
 
         d3.selectAll("svg")
                 .datum(data)
