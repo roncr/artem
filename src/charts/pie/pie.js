@@ -21,7 +21,8 @@ class Pie extends Chart {
             donutRatio: 0,
             showLabels: true,
             labelThreshold: 0.05,
-            transformLabel: PieConstants.LABEL_TYPE.KEY
+            transformLabel: PieConstants.LABEL_TYPE.KEY,
+            tooltipTemplateFn: null
         };
 
         let properties = {
@@ -34,7 +35,8 @@ class Pie extends Chart {
             donutRatio: defaultGetSet('donutRatio', opts),
             showLabels: defaultGetSet('showLabels', opts),
             labelThreshold: defaultGetSet('labelThreshold', opts),
-            label: defaultGetSet('transformLabel', opts)
+            label: defaultGetSet('transformLabel', opts),
+            tooltip: defaultGetSet('tooltipTemplateFn', opts)
         };
 
         this.opts = opts;
@@ -58,7 +60,7 @@ class Pie extends Chart {
 
                 // Initialize required components
                 var tooltip = d3TooltipBox.tooltip()
-                    .template(function(d){
+                    .template(self.opts.tooltipTemplateFn || function(d){
                         var key = getKey(d.data);
 
                         var def = {
